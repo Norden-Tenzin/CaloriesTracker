@@ -9,53 +9,31 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
-        } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
+        NavigationStack {
+            Main()
         }
     }
 }
 
 #Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Day.self, Item.self, configurations: config)
+
+    let egg = Item(name: "Egg", desc: "boiled egg", calories: 10, protien: 10, carbs: 10, fat: 10, timestamp: Date())
+    let rice = Item(name: "rice", desc: "boiled egg", calories: 10, protien: 10, carbs: 10, fat: 10, timestamp: Date())
+    let chicken = Item(name: "chicken", desc: "boiled egg", calories: 10, protien: 10, carbs: 10, fat: 10, timestamp: Date())
+    let day = Day(date: getDate(date: Date.now), timestamp: Date.now)
+    container.mainContext.insert(egg)
+    container.mainContext.insert(rice)
+    container.mainContext.insert(chicken)
+    
+    day.breakfast = [egg, rice, chicken]
+    day.lunch = [egg, rice, chicken]
+    day.dinner = [egg, rice, chicken]
+    day.snack = [egg, rice, chicken]
+    container.mainContext.insert(day)
+
+    return ContentView()
+        .modelContainer(container)
 }

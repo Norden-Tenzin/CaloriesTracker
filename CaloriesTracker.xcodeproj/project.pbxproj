@@ -15,6 +15,12 @@
 		65737B7A2B11C3A300AE0DCE /* CaloriesTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B792B11C3A300AE0DCE /* CaloriesTrackerTests.swift */; };
 		65737B842B11C3A300AE0DCE /* CaloriesTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B832B11C3A300AE0DCE /* CaloriesTrackerUITests.swift */; };
 		65737B862B11C3A300AE0DCE /* CaloriesTrackerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B852B11C3A300AE0DCE /* CaloriesTrackerUITestsLaunchTests.swift */; };
+		65737B932B11C3CF00AE0DCE /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B922B11C3CF00AE0DCE /* Day.swift */; };
+		65737B952B11C67400AE0DCE /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B942B11C67400AE0DCE /* Main.swift */; };
+		65737B992B1225E900AE0DCE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B982B1225E900AE0DCE /* Card.swift */; };
+		65737B9B2B1250A900AE0DCE /* WeekBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B9A2B1250A900AE0DCE /* WeekBarView.swift */; };
+		65737B9F2B13CA0800AE0DCE /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B9E2B13CA0800AE0DCE /* Helper.swift */; };
+		65737BA12B13CA2800AE0DCE /* PopupSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737BA02B13CA2800AE0DCE /* PopupSheetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,12 @@
 		65737B7F2B11C3A300AE0DCE /* CaloriesTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CaloriesTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		65737B832B11C3A300AE0DCE /* CaloriesTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesTrackerUITests.swift; sourceTree = "<group>"; };
 		65737B852B11C3A300AE0DCE /* CaloriesTrackerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesTrackerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		65737B922B11C3CF00AE0DCE /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		65737B942B11C67400AE0DCE /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
+		65737B982B1225E900AE0DCE /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		65737B9A2B1250A900AE0DCE /* WeekBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekBarView.swift; sourceTree = "<group>"; };
+		65737B9E2B13CA0800AE0DCE /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = ../Helper.swift; sourceTree = "<group>"; };
+		65737BA02B13CA2800AE0DCE /* PopupSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,9 +110,14 @@
 		65737B632B11C3A200AE0DCE /* CaloriesTracker */ = {
 			isa = PBXGroup;
 			children = (
+				65737BA22B13CAD900AE0DCE /* Model */,
 				65737B642B11C3A200AE0DCE /* CaloriesTrackerApp.swift */,
 				65737B662B11C3A200AE0DCE /* ContentView.swift */,
-				65737B682B11C3A200AE0DCE /* Item.swift */,
+				65737B942B11C67400AE0DCE /* Main.swift */,
+				65737B9A2B1250A900AE0DCE /* WeekBarView.swift */,
+				65737BA02B13CA2800AE0DCE /* PopupSheetView.swift */,
+				65737B982B1225E900AE0DCE /* Card.swift */,
+				65737B9E2B13CA0800AE0DCE /* Helper.swift */,
 				65737B6A2B11C3A200AE0DCE /* Assets.xcassets */,
 				65737B6F2B11C3A200AE0DCE /* CaloriesTracker.entitlements */,
 				65737B702B11C3A200AE0DCE /* Info.plist */,
@@ -132,6 +149,15 @@
 				65737B852B11C3A300AE0DCE /* CaloriesTrackerUITestsLaunchTests.swift */,
 			);
 			path = CaloriesTrackerUITests;
+			sourceTree = "<group>";
+		};
+		65737BA22B13CAD900AE0DCE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				65737B682B11C3A200AE0DCE /* Item.swift */,
+				65737B922B11C3CF00AE0DCE /* Day.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,8 +290,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65737B9B2B1250A900AE0DCE /* WeekBarView.swift in Sources */,
+				65737B952B11C67400AE0DCE /* Main.swift in Sources */,
+				65737B992B1225E900AE0DCE /* Card.swift in Sources */,
 				65737B672B11C3A200AE0DCE /* ContentView.swift in Sources */,
 				65737B692B11C3A200AE0DCE /* Item.swift in Sources */,
+				65737B9F2B13CA0800AE0DCE /* Helper.swift in Sources */,
+				65737B932B11C3CF00AE0DCE /* Day.swift in Sources */,
+				65737BA12B13CA2800AE0DCE /* PopupSheetView.swift in Sources */,
 				65737B652B11C3A200AE0DCE /* CaloriesTrackerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,8 +12,9 @@ import SwiftData
 struct CaloriesTrackerApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
-        ])
+            Day.self,
+            Item.self
+            ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -27,6 +28,6 @@ struct CaloriesTrackerApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(sharedModelContainer)
+            .modelContainer(sharedModelContainer)
     }
 }
