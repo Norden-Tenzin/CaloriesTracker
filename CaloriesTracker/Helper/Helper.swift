@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 extension Double {
     func string(maximumFractionDigits: Int = 2) -> String {
@@ -196,4 +197,10 @@ struct DecimalTextField: View {
         TextField(placeHolder, text: $viewModel.text)
             .keyboardType(.decimalPad)
     }
+}
+
+func get24Time(date: Date) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "HH:mm"
+    return dateFormatter.string(from: date)
 }

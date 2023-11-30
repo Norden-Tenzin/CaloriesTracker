@@ -11,6 +11,7 @@ import SwiftData
 struct Card: View {
     @Binding var selectedDay: Day
     @Binding var presentSheet: Bool
+    @Binding var presentCardSheet: Bool
     @Binding var sheetSelection: Meals
     @State var items: [Item]?
     var meal: Meals
@@ -18,30 +19,29 @@ struct Card: View {
     var body: some View {
         VStack {
             HStack {
-                switch (meal) {
-                case .breakfast:
-                    Image(systemName: "sun.horizon")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color.orange)
-                case .lunch:
-                    Image(systemName: "sun.max")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color.orange)
-                case .dinner:
-                    Image(systemName: "moon.haze")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color.orange)
-                case .snack:
-                    Image(systemName: "carrot")
-                        .font(.system(size: 30))
-                        .foregroundStyle(Color.orange)
+                Group {
+                    switch (meal) {
+                    case .breakfast:
+                        Image(systemName: "sun.horizon")
+                            .font(.system(size: 30))
+                            .foregroundStyle(Color.orange)
+                    case .lunch:
+                        Image(systemName: "sun.max")
+                            .font(.system(size: 30))
+                            .foregroundStyle(Color.orange)
+                    case .dinner:
+                        Image(systemName: "moon.haze")
+                            .font(.system(size: 30))
+                            .foregroundStyle(Color.orange)
+                    case .snack:
+                        Image(systemName: "carrot")
+                            .font(.system(size: 30))
+                            .foregroundStyle(Color.orange)
+                    }
                 }
-                VStack(alignment: .leading) {
-                    Text(meal.rawValue)
-                        .fontWeight(.bold)
-                    Text("Goal: 440 calories")
-                        .font(.system(size: 14))
-                }
+                .frame(width: 50)
+                Text(meal.rawValue)
+                    .fontWeight(.bold)
                 Spacer()
                 Image(systemName: "plus.circle")
                     .font(.system(size: 30))
@@ -53,13 +53,13 @@ struct Card: View {
                 .padding(.horizontal, 10)
             switch(meal) {
             case .breakfast:
-                CardDescription(meal: meal, data: $selectedDay.breakfast)
+                CardDescription(meal: meal, data: $selectedDay.breakfast, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .lunch:
-                CardDescription(meal: meal, data: $selectedDay.lunch)
+                CardDescription(meal: meal, data: $selectedDay.lunch, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .dinner:
-                CardDescription(meal: meal, data: $selectedDay.dinner)
+                CardDescription(meal: meal, data: $selectedDay.dinner, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .snack:
-                CardDescription(meal: meal, data: $selectedDay.snack)
+                CardDescription(meal: meal, data: $selectedDay.snack, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             }
         }
             .padding()
@@ -74,6 +74,10 @@ struct Card: View {
 struct CardDescription: View {
     var meal: Meals
     @Binding var data: [Item]
+    @Binding var presentSheet: Bool
+    @Binding var presentCardSheet: Bool
+    @Binding var selectedDay: Day
+    var sheetSelection: Meals
 
     @State var calories: Double = 0
     @State var protien: Double = 0
@@ -124,19 +128,21 @@ struct CardDescription: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
                 Divider()
-                VStack {
+                VStack (spacing: 10) {
                     ForEach(data) { item in
-                        if data.last == item {
-                            CardDescriptionItem(item: item, removeItemFromCard: removeItemFromCard)
-                        } else {
-                            CardDescriptionItem(item: item, removeItemFromCard: removeItemFromCard)
-                                .padding(.bottom, 15)
+                        CardDescriptionItem(item: item, removeItemFromCard: removeItemFromCard)
+                            .onTapGesture {
+                            presentCardSheet = true
                         }
+                            .sheet(isPresented: $presentCardSheet, content: {
+                            SheetForm(presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: item.name, calories: Int(item.calories).description, protien: Int(item.protien).description, carbs: Int(item.carbs).description, fat: Int(item.fat).description, date: item.timestamp, isEditing: true, item: item)
+                                .presentationDetents([.fraction(0.55)])
+                        })
                     }
+                        .scrollDisabled(true)
+                        .padding(.horizontal, 15)
+                        .padding(.top, 10)
                 }
-                    .scrollDisabled(true)
-                    .padding(.horizontal, 15)
-                    .padding(.top, 10)
             }
                 .onAppear() {
                 for item in data {
@@ -148,7 +154,6 @@ struct CardDescription: View {
             }
         }
     }
-
     func removeItemFromCard(item: Item) {
         withAnimation {
             if let itemIndex = data.firstIndex(of: item) {
@@ -164,21 +169,17 @@ struct CardDescriptionItem: View {
     var removeItemFromCard: (Item) -> Void
     var body: some View {
         HStack {
+//            TODO: Image
 //            Circle()
 //                .fill(Color.gray)
 //                .frame(width: 35)
-            VStack (alignment: .leading) {
+            VStack (alignment: .leading, spacing: 5) {
                 Text(item.name)
                     .fontWeight(.bold)
-                if item.desc != "" {
-                    Text(item.desc)
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color.secondary)
-                } else {
-                    Text("")
-                        .font(.system(size: 12))
-                        .foregroundStyle(Color.clear)
-                }
+                Text(get24Time(date: item.timestamp))
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.secondary)
+                    .padding(.leading, 5)
             }
             Spacer()
             Image(systemName: "x.circle")
@@ -187,23 +188,6 @@ struct CardDescriptionItem: View {
                 removeItemFromCard(item)
             }
         }
-    }
-}
-
-struct CardDescriptionAddButton: View {
-    var body: some View {
-        HStack {
-//            Circle()
-//                .fill(Color.gray)
-//                .frame(width: 35)
-            VStack (alignment: .leading) {
-                Text("add +")
-                    .fontWeight(.bold)
-                Text("Item Desc")
-                    .font(.system(size: 12))
-                    .foregroundStyle(Color.clear)
-            }
-            Spacer()
-        }
+            .contentShape(Rectangle())
     }
 }

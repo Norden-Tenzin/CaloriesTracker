@@ -35,6 +35,7 @@ struct Main: View {
     @State var fat: Double = 0
 
     @State var presentSheet: Bool = false
+    @State var presentCardSheet: Bool = false
     @State var presentPopover: Bool = false
     @State var sheetSelection: Meals = .breakfast
 
@@ -43,8 +44,6 @@ struct Main: View {
             VStack {
 //                MARK: - TOP NAV BAR
                 HStack(spacing: 15) {
-                    Text(getTitle(selection: selection))
-                        .font(.system(size: 34, weight: .bold))
                     Spacer()
                     Button(action: {
                         self.presentPopover = true
@@ -53,24 +52,24 @@ struct Main: View {
                     }
                         .buttonStyle(.plain)
                         .popover(isPresented: $presentPopover) {
-                        DatePicker(
-                            "Start Date",
-                            selection: $selection,
-                            displayedComponents: [.date]
-                        )
+                        DatePicker("", selection: $selection, in: ...Date.now, displayedComponents: [.date])
                             .datePickerStyle(.graphical)
                             .frame(width: 350)
                             .presentationCompactAdaptation(.popover)
                     }
-                    Image(systemName: "gearshape")
+//                    Image(systemName: "gearshape")
                 }
+                    .overlay(content: {
+                    Text(getTitle(selection: selection))
+                        .font(.system(size: 24, weight: .bold))
+                })
                     .font(.system(size: 24))
                     .padding()
 
 //                MARK: - WEEK NAV BAR
                 WeekBarView(selection: $selection)
                     .onChange(of: selection, { oldValue, newValue in
-                    withAnimation {
+                    withAnimation(.easeIn) {
                         if let selectedDate = days.first(where: { day in
                             return day.date == getDate(date: selection)
                         }) {
@@ -92,6 +91,7 @@ struct Main: View {
                         ActivityRingView(progress: stats.2 / carbsMax, color: Color.carbs, width: Double(160 - (2 * 36)))
                         ActivityRingView(progress: stats.3 / fatMax, color: Color.fat, width: Double(160 - (3 * 36)))
                     }
+                        .padding(.leading, 6)
                         .frame(width: geo.size.width / 2)
                     VStack(spacing: 0) {
                         GraphDetails(title: "Calories", data: stats.0, dataMax: caloriesMax, color: Color.calories)
@@ -99,8 +99,10 @@ struct Main: View {
                         GraphDetails(title: "Carbs", data: stats.2, dataMax: carbsMax, color: Color.carbs)
                         GraphDetails(title: "Fat", data: stats.3, dataMax: fatMax, color: Color.fat)
                     }
-                        .frame(width: geo.size.width / 2)
+                        .padding(.leading, 10)
+                        .padding(.trailing, 15)
                         .padding(.vertical, 100)
+                        .frame(width: geo.size.width / 2)
                 }
                     .frame(height: (geo.size.width / 2))
                     .padding(.top, 10)
@@ -108,10 +110,10 @@ struct Main: View {
 
 //                MARK: - CARDS
                 ScrollView {
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.breakfast, meal: .breakfast)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.lunch, meal: .lunch)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.dinner, meal: .dinner)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.snack, meal: .snack)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.breakfast, meal: .breakfast)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.lunch, meal: .lunch)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.dinner, meal: .dinner)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.snack, meal: .snack)
                         .padding(.bottom, 10)
                 }
                     .scrollIndicators(.hidden)
@@ -124,16 +126,16 @@ struct Main: View {
         }
             .ignoresSafeArea()
             .onAppear() {
-            do {
-                try modelContext.delete(model: Item.self)
-            } catch {
-                print("Failed to delete students.")
-            }
-            do {
-                try modelContext.delete(model: Day.self)
-            } catch {
-                print("Failed to delete students.")
-            }
+//            do {
+//                try modelContext.delete(model: Item.self)
+//            } catch {
+//                print("Failed to delete students.")
+//            }
+//            do {
+//                try modelContext.delete(model: Day.self)
+//            } catch {
+//                print("Failed to delete students.")
+//            }
 
 //                if date exists query and get
 //                else create and add
@@ -147,7 +149,7 @@ struct Main: View {
             calculateStats(selectedDay: selectedDay)
         }
             .sheet(isPresented: $presentSheet, content: {
-            Sheet(presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
+            SheetForm(presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: "", calories: "", protien: "", carbs: "", fat: "", date: Date.now)
                 .presentationDetents([.fraction(0.55)])
         })
     }
@@ -157,7 +159,7 @@ struct Main: View {
             return "Today"
         } else {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/dd"
+            dateFormatter.dateFormat = "dd MMM YYYY"
             return dateFormatter.string(from: selection)
         }
     }
@@ -242,9 +244,9 @@ struct GraphDetails: View {
     var body: some View {
         Group {
             HStack(spacing: 5) {
-                Image(systemName: "circle.fill")
-                    .font(.system(size: 10))
-                    .foregroundStyle(color)
+//                Image(systemName: "circle.fill")
+//                    .font(.system(size: 10))
+//                    .foregroundStyle(color)
                 Text(title)
                     .font(.system(size: 16))
                 Spacer()
@@ -257,6 +259,5 @@ struct GraphDetails: View {
             SimpleBarProgressView(progress: (data / dataMax), color: color)
                 .padding(.bottom, 10)
         }
-            .padding(.trailing, 10)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		655110D72B17232400B47A0D /* Depricated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655110D62B17232400B47A0D /* Depricated.swift */; };
 		65737B652B11C3A200AE0DCE /* CaloriesTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B642B11C3A200AE0DCE /* CaloriesTrackerApp.swift */; };
 		65737B672B11C3A200AE0DCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B662B11C3A200AE0DCE /* ContentView.swift */; };
 		65737B692B11C3A200AE0DCE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B682B11C3A200AE0DCE /* Item.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		655110D62B17232400B47A0D /* Depricated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Depricated.swift; sourceTree = "<group>"; };
 		65737B612B11C3A200AE0DCE /* CaloriesTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaloriesTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65737B642B11C3A200AE0DCE /* CaloriesTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesTrackerApp.swift; sourceTree = "<group>"; };
 		65737B662B11C3A200AE0DCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,7 +60,7 @@
 		65737B942B11C67400AE0DCE /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		65737B982B1225E900AE0DCE /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		65737B9A2B1250A900AE0DCE /* WeekBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekBarView.swift; sourceTree = "<group>"; };
-		65737B9E2B13CA0800AE0DCE /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Helper.swift; path = ../Helper.swift; sourceTree = "<group>"; };
+		65737B9E2B13CA0800AE0DCE /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		65737BA02B13CA2800AE0DCE /* PopupSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,6 +89,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		655110D82B17233100B47A0D /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				65737B9E2B13CA0800AE0DCE /* Helper.swift */,
+				655110D62B17232400B47A0D /* Depricated.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		65737B582B11C3A200AE0DCE = {
 			isa = PBXGroup;
 			children = (
@@ -117,7 +128,7 @@
 				65737B9A2B1250A900AE0DCE /* WeekBarView.swift */,
 				65737BA02B13CA2800AE0DCE /* PopupSheetView.swift */,
 				65737B982B1225E900AE0DCE /* Card.swift */,
-				65737B9E2B13CA0800AE0DCE /* Helper.swift */,
+				655110D82B17233100B47A0D /* Helper */,
 				65737B6A2B11C3A200AE0DCE /* Assets.xcassets */,
 				65737B6F2B11C3A200AE0DCE /* CaloriesTracker.entitlements */,
 				65737B702B11C3A200AE0DCE /* Info.plist */,
@@ -290,6 +301,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				655110D72B17232400B47A0D /* Depricated.swift in Sources */,
 				65737B9B2B1250A900AE0DCE /* WeekBarView.swift in Sources */,
 				65737B952B11C67400AE0DCE /* Main.swift in Sources */,
 				65737B992B1225E900AE0DCE /* Card.swift in Sources */,
@@ -467,11 +479,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CaloriesTracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CaloriesTracker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -479,9 +494,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.norden.CaloriesTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -498,11 +516,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CaloriesTracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CaloriesTracker;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -510,9 +531,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.norden.CaloriesTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -11,28 +11,54 @@ struct WeekBarView: View {
     @State var today: Date = Date()
     @State var week: [Date] = []
     @Binding var selection: Date
+    @State var presentAlert: Bool = false
 
     var body: some View {
         HStack {
             ForEach(week, id: \.self) { date in
-                WeekBarItem(date: date, selection: $selection, disabled: date == week.last!)
                 if let last = week.last {
+                    if date <= today {
+                        WeekBarItem(date: date, selection: $selection, today: today)
+                            .onTapGesture {
+                            selection = date
+                        }
+                    } else {
+                        WeekBarItem(date: date, selection: $selection, today: today)
+                            .onTapGesture {
+                                presentAlert = true
+                            }
+                    }
                     if last != date {
                         Spacer()
                     }
                 }
             }
         }
+            .alert(isPresented: $presentAlert) {
+            Alert(title: Text("You can't select future date"), dismissButton: .default(Text("OK")))
+        }
             .onAppear() {
             today = Date.now
-            let weekIndex = [-5, -4, -3, -2, -1, 0, 1]
+            let dayNames = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday"
+            ]
 
-            for index in weekIndex {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "eeee"
+            let todaysDay = dateFormatter.string(from: today)
+
+            for index in [0, 1, 2, 3, 4, 5, 6] {
                 let calendar = Calendar.current
 
                 // Define the date components to subtract
                 var dateComponents = DateComponents()
-                dateComponents.day = index
+                dateComponents.day = index - dayNames.firstIndex(of: todaysDay)!
 
                 // Subtract days from the current date
                 week.append(calendar.date(byAdding: dateComponents, to: today)!)
@@ -46,9 +72,9 @@ struct WeekBarItem: View {
     @Binding var selection: Date
     @State var weekDay: String = ""
     @State var dateNum: String = ""
-    @State var disabled: Bool
     let grayif = "17"
     let selected = 16
+    let today: Date
 
     var body: some View {
         VStack {
@@ -57,7 +83,7 @@ struct WeekBarItem: View {
                     .font(.system(size: 12))
                     .foregroundStyle(Color.white)
             }
-            else if disabled {
+            else if date > today {
                 Text(weekDay)
                     .font(.system(size: 12))
                     .foregroundStyle(Color.secondary)
@@ -70,7 +96,7 @@ struct WeekBarItem: View {
             Text(dateNum)
                 .fontWeight(.semibold)
                 .padding(6)
-                .foregroundStyle(disabled ? Color.secondary : Color.black)
+                .foregroundStyle(date > today ? Color.secondary : Color.black)
                 .background() {
                 Circle()
                     .fill(getDate(date: date) == getDate(date: selection) ? Color.white : Color.clear)
@@ -83,9 +109,6 @@ struct WeekBarItem: View {
                 Capsule()
                     .fill(Color.black)
             }
-        }
-            .onTapGesture {
-            selection = date
         }
             .onAppear() {
             let dateFormatter = DateFormatter()
