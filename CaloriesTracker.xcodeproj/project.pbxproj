@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		655110D72B17232400B47A0D /* Depricated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655110D62B17232400B47A0D /* Depricated.swift */; };
+		655110DA2B18AFD300B47A0D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655110D92B18AFD300B47A0D /* Constants.swift */; };
 		65737B652B11C3A200AE0DCE /* CaloriesTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B642B11C3A200AE0DCE /* CaloriesTrackerApp.swift */; };
 		65737B672B11C3A200AE0DCE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B662B11C3A200AE0DCE /* ContentView.swift */; };
 		65737B692B11C3A200AE0DCE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65737B682B11C3A200AE0DCE /* Item.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		655110D62B17232400B47A0D /* Depricated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Depricated.swift; sourceTree = "<group>"; };
+		655110D92B18AFD300B47A0D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		65737B612B11C3A200AE0DCE /* CaloriesTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CaloriesTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65737B642B11C3A200AE0DCE /* CaloriesTrackerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaloriesTrackerApp.swift; sourceTree = "<group>"; };
 		65737B662B11C3A200AE0DCE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				65737B9E2B13CA0800AE0DCE /* Helper.swift */,
+				655110D92B18AFD300B47A0D /* Constants.swift */,
 				655110D62B17232400B47A0D /* Depricated.swift */,
 			);
 			path = Helper;
@@ -302,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				655110D72B17232400B47A0D /* Depricated.swift in Sources */,
+				655110DA2B18AFD300B47A0D /* Constants.swift in Sources */,
 				65737B9B2B1250A900AE0DCE /* WeekBarView.swift in Sources */,
 				65737B952B11C67400AE0DCE /* Main.swift in Sources */,
 				65737B992B1225E900AE0DCE /* Card.swift in Sources */,

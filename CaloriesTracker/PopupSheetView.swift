@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import Combine
 
+//  MARK: - Sheet Form
 struct SheetForm: View {
     @Environment(\.modelContext) private var modelContext
     @Query var items: [Item]
@@ -39,6 +40,7 @@ struct SheetForm: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+//            MARK: Back Button
             Button(action: {
                 presentSheet = false
                 presentCardSheet = false
@@ -52,6 +54,8 @@ struct SheetForm: View {
                 .padding(.top, 10)
                 .padding(.leading, 10)
                 .padding(.bottom, 10)
+            
+//            MARK: Stats Form
             HStack {
                 VStack(spacing: 0) {
                     Text("Calories")
@@ -66,7 +70,7 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(calories.description) ?? 0 / caloriesMax, color: Color.calories, lineWidth: 10)
+                        ActivityRingView(progress: Double(calories.description) ?? 0 / CALORIES_MAX, color: Color.calories, lineWidth: 10)
                     }
                 }
                     .font(.system(size: 12))
@@ -84,7 +88,7 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(protien.description) ?? 0 / protienMax, color: Color.protien, lineWidth: 10)
+                        ActivityRingView(progress: Double(protien.description) ?? 0 / PROTIEN_MAX, color: Color.protien, lineWidth: 10)
                     }
                 }
                     .font(.system(size: 12))
@@ -102,7 +106,7 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(carbs.description) ?? 0 / carbsMax, color: Color.carbs, lineWidth: 10)
+                        ActivityRingView(progress: Double(carbs.description) ?? 0 / CARBS_MAX, color: Color.carbs, lineWidth: 10)
                     }
                 }
                     .font(.system(size: 12))
@@ -120,7 +124,7 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(fat.description) ?? 0 / fatMax, color: Color.fat, lineWidth: 10)
+                        ActivityRingView(progress: Double(fat.description) ?? 0 / FAT_MAX, color: Color.fat, lineWidth: 10)
                     }
                 }
                     .font(.system(size: 12))
@@ -129,16 +133,19 @@ struct SheetForm: View {
                 .padding(.bottom, 10)
             Divider()
                 .padding(.bottom, 15)
+            
+//            MARK: Name Field
             TextField("Item Name", text: $itemName)
                 .fontWeight(.bold)
                 .padding(.leading, 15)
                 .padding(.bottom, 10)
+//            MARK: DatePicker Field
             DatePicker("Date & Time", selection: $date, displayedComponents: [.date, .hourAndMinute])
                 .fontWeight(.bold)
                 .padding(.horizontal, 15)
                 .padding(.bottom, 10)
 
-//            MARK: - ADD ITEM BUTTON
+//            MARK: ADD ITEM BUTTON
             if displayFormError {
                 HStack {
                     Spacer()
@@ -161,7 +168,6 @@ struct SheetForm: View {
                         presentSheet = false
                         presentCardSheet = false
                         item?.name = itemName
-                        print("CALORIES: \(calories) DOUBLE: \(Double(calories.description)), DPUBLE: \(Double(calories.description) ?? 0)")
                         item?.calories = Double(calories.description) ?? 0
                         item?.protien = Double(protien.description) ?? 0
                         item?.carbs = Double(carbs.description) ?? 0
@@ -203,26 +209,5 @@ struct SheetForm: View {
             Spacer()
         }
             .navigationBarBackButtonHidden()
-    }
-}
-
-struct SheetItem: View {
-    var item: Item
-    var body: some View {
-        HStack {
-//            TODO: Image
-//            Circle()
-//                .fill(Color.gray)
-//                .frame(width: 35)
-            VStack (alignment: .leading, spacing: 5) {
-                Text(item.name)
-                    .fontWeight(.bold)
-                    .padding(.bottom, 5)
-                Text(get24Time(date: item.timestamp))
-                    .font(.system(size: 12))
-                    .foregroundStyle(Color.secondary)
-            }
-            Spacer()
-        }
     }
 }

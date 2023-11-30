@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//  MARK: - WEEK BAR VIEW
 struct WeekBarView: View {
     @State var today: Date = Date()
     @State var week: [Date] = []
@@ -67,6 +68,7 @@ struct WeekBarView: View {
     }
 }
 
+//  MARK: - WEEK BAR ITEM VIEW
 struct WeekBarItem: View {
     @State var date: Date
     @Binding var selection: Date
@@ -121,6 +123,8 @@ struct WeekBarItem: View {
     }
 }
 
+//  Formats Date in the "month/date/year" format
+//  returns: String
 func getDate(date: Date) -> String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "MM/dd/yyyy"

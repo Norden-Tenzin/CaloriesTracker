@@ -9,18 +9,6 @@ import SwiftUI
 import SwiftData
 import Combine
 
-enum Meals: String {
-    case breakfast = "Breakfast"
-    case lunch = "Lunch"
-    case dinner = "Dinner"
-    case snack = "Snack"
-}
-
-let caloriesMax: Double = 2200
-let protienMax: Double = 65
-let carbsMax: Double = 325
-let fatMax: Double = 90
-
 struct Main: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var days: [Day]
@@ -57,6 +45,7 @@ struct Main: View {
                             .frame(width: 350)
                             .presentationCompactAdaptation(.popover)
                     }
+//                    MARK: Settings button
 //                    Image(systemName: "gearshape")
                 }
                     .overlay(content: {
@@ -86,18 +75,18 @@ struct Main: View {
                 HStack(spacing: 0) {
                     let stats = calculateStatsProgress(selectedDay: selectedDay)
                     ZStack {
-                        ActivityRingView(progress: stats.0 / caloriesMax, color: Color.calories, width: Double(160 - (0 * 36)))
-                        ActivityRingView(progress: stats.1 / protienMax, color: Color.protien, width: Double(160 - (1 * 36)))
-                        ActivityRingView(progress: stats.2 / carbsMax, color: Color.carbs, width: Double(160 - (2 * 36)))
-                        ActivityRingView(progress: stats.3 / fatMax, color: Color.fat, width: Double(160 - (3 * 36)))
+                        ActivityRingView(progress: stats.0 / CALORIES_MAX, color: Color.calories, width: Double(160 - (0 * 36)))
+                        ActivityRingView(progress: stats.1 / PROTIEN_MAX, color: Color.protien, width: Double(160 - (1 * 36)))
+                        ActivityRingView(progress: stats.2 / CARBS_MAX, color: Color.carbs, width: Double(160 - (2 * 36)))
+                        ActivityRingView(progress: stats.3 / FAT_MAX, color: Color.fat, width: Double(160 - (3 * 36)))
                     }
                         .padding(.leading, 6)
                         .frame(width: geo.size.width / 2)
                     VStack(spacing: 0) {
-                        GraphDetails(title: "Calories", data: stats.0, dataMax: caloriesMax, color: Color.calories)
-                        GraphDetails(title: "Protien", data: stats.1, dataMax: protienMax, color: Color.protien)
-                        GraphDetails(title: "Carbs", data: stats.2, dataMax: carbsMax, color: Color.carbs)
-                        GraphDetails(title: "Fat", data: stats.3, dataMax: fatMax, color: Color.fat)
+                        GraphDetails(title: "Calories", data: stats.0, dataMax: CALORIES_MAX, color: Color.calories)
+                        GraphDetails(title: "Protien", data: stats.1, dataMax: PROTIEN_MAX, color: Color.protien)
+                        GraphDetails(title: "Carbs", data: stats.2, dataMax: CARBS_MAX, color: Color.carbs)
+                        GraphDetails(title: "Fat", data: stats.3, dataMax: FAT_MAX, color: Color.fat)
                     }
                         .padding(.leading, 10)
                         .padding(.trailing, 15)
@@ -126,6 +115,7 @@ struct Main: View {
         }
             .ignoresSafeArea()
             .onAppear() {
+//                Delete All Data
 //            do {
 //                try modelContext.delete(model: Item.self)
 //            } catch {
@@ -137,6 +127,7 @@ struct Main: View {
 //                print("Failed to delete students.")
 //            }
 
+//                ON APPEAR
 //                if date exists query and get
 //                else create and add
             if let selectedDate = days.first(where: { day in
@@ -149,11 +140,14 @@ struct Main: View {
             calculateStats(selectedDay: selectedDay)
         }
             .sheet(isPresented: $presentSheet, content: {
+//                MARK: Sheet Form
             SheetForm(presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: "", calories: "", protien: "", carbs: "", fat: "", date: Date.now)
                 .presentationDetents([.fraction(0.55)])
         })
     }
 
+//    Returns the Date formatted as "23 Nov 2023"
+//    return: String
     func getTitle(selection: Date) -> String {
         if getDate(date: selection) == getDate(date: Date.now) {
             return "Today"
@@ -170,6 +164,8 @@ struct Main: View {
         return day
     }
 
+//    Calculates the total stats for all the meals in the day
+//    return: Void
     func calculateStats(selectedDay: Day) {
         calories = 0
         protien = 0
@@ -201,6 +197,8 @@ struct Main: View {
         }
     }
 
+//    Calculates the total stats for all the meals in the day
+//    return: (Calories, Protien, Carbs, Fat)
     func calculateStatsProgress(selectedDay: Day) -> (Double, Double, Double, Double) {
         var calories: Double = 0
         var protien: Double = 0
@@ -235,6 +233,7 @@ struct Main: View {
     }
 }
 
+//  Progress Bar component
 struct GraphDetails: View {
     var title: String
     var data: Double
@@ -244,9 +243,6 @@ struct GraphDetails: View {
     var body: some View {
         Group {
             HStack(spacing: 5) {
-//                Image(systemName: "circle.fill")
-//                    .font(.system(size: 10))
-//                    .foregroundStyle(color)
                 Text(title)
                     .font(.system(size: 16))
                 Spacer()

@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+//  MARK: - CARD
 struct Card: View {
     @Binding var selectedDay: Day
     @Binding var presentSheet: Bool
@@ -18,6 +19,7 @@ struct Card: View {
 
     var body: some View {
         VStack {
+//            MARK: CARD TOP BAR
             HStack {
                 Group {
                     switch (meal) {
@@ -51,6 +53,7 @@ struct Card: View {
                 }
             }
                 .padding(.horizontal, 10)
+//            MARK: Description based on the meal type
             switch(meal) {
             case .breakfast:
                 CardDescription(meal: meal, data: $selectedDay.breakfast, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
@@ -71,6 +74,7 @@ struct Card: View {
     }
 }
 
+//  MARK: - CARD DESCRIPTION
 struct CardDescription: View {
     var meal: Meals
     @Binding var data: [Item]
@@ -88,6 +92,7 @@ struct CardDescription: View {
         if !data.isEmpty {
             VStack {
                 Divider()
+//                MARK: Total stats for the meal
                 HStack {
                     VStack {
                         Text("Calories")
@@ -128,6 +133,7 @@ struct CardDescription: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
                 Divider()
+//                MARK: List of items in the Meal
                 VStack (spacing: 10) {
                     ForEach(data) { item in
                         CardDescriptionItem(item: item, removeItemFromCard: removeItemFromCard)
@@ -163,6 +169,7 @@ struct CardDescription: View {
     }
 }
 
+//MARK: - CARD DESCRIPTION ITEM
 struct CardDescriptionItem: View {
     var item: Item
     var showCross: Bool = true
@@ -170,9 +177,6 @@ struct CardDescriptionItem: View {
     var body: some View {
         HStack {
 //            TODO: Image
-//            Circle()
-//                .fill(Color.gray)
-//                .frame(width: 35)
             VStack (alignment: .leading, spacing: 5) {
                 Text(item.name)
                     .fontWeight(.bold)

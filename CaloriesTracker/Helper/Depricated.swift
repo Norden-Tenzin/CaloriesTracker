@@ -124,3 +124,23 @@
 //    }
 //}
 //}
+
+
+//  Single Sheet Item
+//struct SheetItem: View {
+//    var item: Item
+//    var body: some View {
+//        HStack {
+////            TODO: Image
+//            VStack (alignment: .leading, spacing: 5) {
+//                Text(item.name)
+//                    .fontWeight(.bold)
+//                    .padding(.bottom, 5)
+//                Text(get24Time(date: item.timestamp))
+//                    .font(.system(size: 12))
+//                    .foregroundStyle(Color.secondary)
+//            }
+//            Spacer()
+//        }
+//    }
+//}
