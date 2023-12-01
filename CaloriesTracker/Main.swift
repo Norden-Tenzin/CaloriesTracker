@@ -23,7 +23,6 @@ struct Main: View {
     @State var fat: Double = 0
 
     @State var presentSheet: Bool = false
-    @State var presentCardSheet: Bool = false
     @State var presentPopover: Bool = false
     @State var sheetSelection: Meals = .breakfast
 
@@ -99,10 +98,10 @@ struct Main: View {
 
 //                MARK: - CARDS
                 ScrollView {
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.breakfast, meal: .breakfast)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.lunch, meal: .lunch)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.dinner, meal: .dinner)
-                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, sheetSelection: $sheetSelection, items: selectedDay.snack, meal: .snack)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.breakfast, meal: .breakfast)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.lunch, meal: .lunch)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.dinner, meal: .dinner)
+                    Card(selectedDay: $selectedDay, presentSheet: $presentSheet, sheetSelection: $sheetSelection, items: selectedDay.snack, meal: .snack)
                         .padding(.bottom, 10)
                 }
                     .scrollIndicators(.hidden)
@@ -141,7 +140,7 @@ struct Main: View {
         }
             .sheet(isPresented: $presentSheet, content: {
 //                MARK: Sheet Form
-            SheetForm(presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: "", calories: "", protien: "", carbs: "", fat: "", date: Date.now)
+            SheetForm(presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: "", calories: "", protien: "", carbs: "", fat: "", date: Date.now, item: .constant(nil))
                 .presentationDetents([.fraction(0.55)])
         })
     }

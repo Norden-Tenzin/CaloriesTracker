@@ -16,7 +16,6 @@ struct SheetForm: View {
 
     @Query var days: [Day]
     @Binding var presentSheet: Bool
-    @Binding var presentCardSheet: Bool
     @Binding var selectedDay: Day
     var sheetSelection: Meals
 
@@ -30,7 +29,7 @@ struct SheetForm: View {
     @State var displayFormError: Bool = false
 
     var isEditing: Bool = false
-    var item: Item?
+    @Binding var item: Item?
 
     private static let formatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -43,7 +42,7 @@ struct SheetForm: View {
 //            MARK: Back Button
             Button(action: {
                 presentSheet = false
-                presentCardSheet = false
+                item = nil
             }, label: {
                     HStack(spacing: 5) {
                         Image(systemName: "chevron.left")
@@ -54,10 +53,10 @@ struct SheetForm: View {
                 .padding(.top, 10)
                 .padding(.leading, 10)
                 .padding(.bottom, 10)
-            
+
 //            MARK: Stats Form
-            HStack {
-                VStack(spacing: 0) {
+            HStack(alignment: .top) {
+                VStack(spacing: 10) {
                     Text("Calories")
                         .font(.system(size: 14))
                     ZStack {
@@ -70,12 +69,13 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(calories.description) ?? 0 / CALORIES_MAX, color: Color.calories, lineWidth: 10)
+                        ActivityRingView(progress: (Double(calories.description) ?? 0) / CALORIES_MAX, color: Color.calories, lineWidth: 10)
                     }
+                        .frame(height: 60)
                 }
                     .font(.system(size: 12))
                     .fontWeight(.regular)
-                VStack(spacing: 0) {
+                VStack(spacing: 10) {
                     Text("Protien")
                         .font(.system(size: 14))
                     ZStack {
@@ -88,12 +88,13 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(protien.description) ?? 0 / PROTIEN_MAX, color: Color.protien, lineWidth: 10)
+                        ActivityRingView(progress: (Double(protien.description) ?? 0) / PROTIEN_MAX, color: Color.protien, lineWidth: 10)
                     }
+                        .frame(height: 60)
                 }
                     .font(.system(size: 12))
                     .fontWeight(.regular)
-                VStack(spacing: 0) {
+                VStack(spacing: 10) {
                     Text("Carbs")
                         .font(.system(size: 14))
                     ZStack {
@@ -106,12 +107,13 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(carbs.description) ?? 0 / CARBS_MAX, color: Color.carbs, lineWidth: 10)
+                        ActivityRingView(progress: (Double(carbs.description) ?? 0) / CARBS_MAX, color: Color.carbs, lineWidth: 10)
                     }
+                        .frame(height: 60)
                 }
                     .font(.system(size: 12))
                     .fontWeight(.regular)
-                VStack(spacing: 0) {
+                VStack(spacing: 10) {
                     Text("Fat")
                         .font(.system(size: 14))
                     ZStack {
@@ -124,21 +126,23 @@ struct SheetForm: View {
                             }
                         }
                             .multilineTextAlignment(.center)
-                        ActivityRingView(progress: Double(fat.description) ?? 0 / FAT_MAX, color: Color.fat, lineWidth: 10)
+                        ActivityRingView(progress: (Double(fat.description) ?? 0) / FAT_MAX, color: Color.fat, lineWidth: 10)
                     }
+                        .frame(height: 60)
                 }
                     .font(.system(size: 12))
                     .fontWeight(.regular)
             }
-                .padding(.bottom, 10)
+                .padding(.bottom, 20)
             Divider()
                 .padding(.bottom, 15)
-            
+
 //            MARK: Name Field
             TextField("Item Name", text: $itemName)
                 .fontWeight(.bold)
                 .padding(.leading, 15)
                 .padding(.bottom, 10)
+            
 //            MARK: DatePicker Field
             DatePicker("Date & Time", selection: $date, displayedComponents: [.date, .hourAndMinute])
                 .fontWeight(.bold)
@@ -166,16 +170,15 @@ struct SheetForm: View {
                 } else {
                     if isEditing {
                         presentSheet = false
-                        presentCardSheet = false
                         item?.name = itemName
                         item?.calories = Double(calories.description) ?? 0
                         item?.protien = Double(protien.description) ?? 0
                         item?.carbs = Double(carbs.description) ?? 0
                         item?.fat = Double(fat.description) ?? 0
                         item?.timestamp = date
+                        item = nil
                     } else {
                         presentSheet = false
-                        presentCardSheet = false
                         let newItem = Item(name: itemName, calories: Double(calories.description) ?? 0, protien: Double(protien.description) ?? 0, carbs: Double(carbs.description) ?? 0, fat: Double(fat.description) ?? 0, timestamp: date)
                         modelContext.insert(newItem)
                         withAnimation {
@@ -190,6 +193,7 @@ struct SheetForm: View {
                                 selectedDay.snack.append(newItem)
                             }
                         }
+                        item = nil
                     }
                 }
             } label: {
@@ -209,5 +213,19 @@ struct SheetForm: View {
             Spacer()
         }
             .navigationBarBackButtonHidden()
+            .onAppear() {
+            if item != nil {
+                itemName = item!.name
+                calories = Int(item!.calories).description
+                protien = Int(item!.protien).description
+                carbs = Int(item!.carbs).description
+                fat = Int(item!.fat).description
+                date = item!.timestamp
+            }
+        }
     }
+}
+
+#Preview {
+    SheetForm(presentSheet: .constant(true), selectedDay: .constant(Day(date: "", timestamp: Date())), sheetSelection: .breakfast, itemName: "", calories: "10", protien: "10", carbs: "10", fat: "10", date: Date(), item: .constant(Item(name: "", calories: 1000, protien: 10, carbs: 10, fat: 10, timestamp: Date())))
 }

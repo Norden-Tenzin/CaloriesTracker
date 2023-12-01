@@ -49,7 +49,6 @@ struct ActivityRingView: View {
                     .rotationEffect(.degrees(-90))
                     .frame(width: width)
             }
-                .padding()
         } else {
             ZStack {
                 Circle()
@@ -59,7 +58,6 @@ struct ActivityRingView: View {
                     .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
                     .rotationEffect(.degrees(-90))
             }
-                .padding()
         }
     }
 }

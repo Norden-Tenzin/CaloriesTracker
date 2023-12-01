@@ -12,7 +12,6 @@ import SwiftData
 struct Card: View {
     @Binding var selectedDay: Day
     @Binding var presentSheet: Bool
-    @Binding var presentCardSheet: Bool
     @Binding var sheetSelection: Meals
     @State var items: [Item]?
     var meal: Meals
@@ -41,7 +40,7 @@ struct Card: View {
                             .foregroundStyle(Color.orange)
                     }
                 }
-                .frame(width: 50)
+                    .frame(width: 50)
                 Text(meal.rawValue)
                     .fontWeight(.bold)
                 Spacer()
@@ -56,13 +55,13 @@ struct Card: View {
 //            MARK: Description based on the meal type
             switch(meal) {
             case .breakfast:
-                CardDescription(meal: meal, data: $selectedDay.breakfast, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
+                CardDescription(meal: meal, data: $selectedDay.breakfast, presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .lunch:
-                CardDescription(meal: meal, data: $selectedDay.lunch, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
+                CardDescription(meal: meal, data: $selectedDay.lunch, presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .dinner:
-                CardDescription(meal: meal, data: $selectedDay.dinner, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
+                CardDescription(meal: meal, data: $selectedDay.dinner, presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             case .snack:
-                CardDescription(meal: meal, data: $selectedDay.snack, presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
+                CardDescription(meal: meal, data: $selectedDay.snack, presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection)
             }
         }
             .padding()
@@ -79,7 +78,6 @@ struct CardDescription: View {
     var meal: Meals
     @Binding var data: [Item]
     @Binding var presentSheet: Bool
-    @Binding var presentCardSheet: Bool
     @Binding var selectedDay: Day
     var sheetSelection: Meals
 
@@ -87,6 +85,7 @@ struct CardDescription: View {
     @State var protien: Double = 0
     @State var carbs: Double = 0
     @State var fat: Double = 0
+    @State var selectedItem: Item?
 
     var body: some View {
         if !data.isEmpty {
@@ -138,12 +137,12 @@ struct CardDescription: View {
                     ForEach(data) { item in
                         CardDescriptionItem(item: item, removeItemFromCard: removeItemFromCard)
                             .onTapGesture {
-                            presentCardSheet = true
+                            selectedItem = item
                         }
-                            .sheet(isPresented: $presentCardSheet, content: {
-                            SheetForm(presentSheet: $presentSheet, presentCardSheet: $presentCardSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: item.name, calories: Int(item.calories).description, protien: Int(item.protien).description, carbs: Int(item.carbs).description, fat: Int(item.fat).description, date: item.timestamp, isEditing: true, item: item)
+                        .sheet(item: $selectedItem) { item in
+                            SheetForm(presentSheet: $presentSheet, selectedDay: $selectedDay, sheetSelection: sheetSelection, itemName: item.name, calories: Int(item.calories).description, protien: Int(item.protien).description, carbs: Int(item.carbs).description, fat: Int(item.fat).description, date: item.timestamp, isEditing: true, item: $selectedItem)
                                 .presentationDetents([.fraction(0.55)])
-                        })
+                        }
                     }
                         .scrollDisabled(true)
                         .padding(.horizontal, 15)
